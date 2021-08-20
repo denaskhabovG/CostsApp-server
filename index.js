@@ -9,8 +9,8 @@ const databaseConfig = require('./config/databaseConfig');
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
 app.use('/costs', costsRoutes);
+app.use(bodyParser.json());
 
 async function start() {
     try {
