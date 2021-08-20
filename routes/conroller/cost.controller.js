@@ -1,40 +1,36 @@
-const mongoose = require('mongoose');
-const Cost = require('../../db/index');
+const Cost = require('../../schemas/costSchema');
 
-module.exports.getAllCosts = (req, res, next) => {
+module.exports.getAllCosts = async (req, res) => {
     try {
-        Cost.find().then(result => {
-            res.send({ data: result });
-        });
+        const result = await Cost.find();
+        res.send({ data: result.reverse() });
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports.createNewCost = (req, res, next) => {
+module.exports.createNewCost = async (req, res) => {
     try {
-        const cost = new Cost(req.body);
-        cost.save().then(result => {
-            res.send(result);
-        });
+        const cost = await new Cost(req.body);
+        cost.save();
+        res.send(cost);
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports.changeCostInfo = async (req, res, next) => {
+module.exports.changeCostInfo = async (req, res) => {
     try {
-        await Cost.findOneAndUpdate({ _id: req.body._id }, req.body).then(result => {
-            res.send(result);
-        });
+        const result = await Cost.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+        res.send(result);
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports.deleteCost = async (req, res, next) => {
+module.exports.deleteCost = async (req, res) => {
     try {
-        const result = await Cost.deleteOne({ _id: req.body._id });
+        const result = await Cost.deleteOne({ _id: req.params.id });
         res.send(result);
     } catch (error) {
         console.log(error);

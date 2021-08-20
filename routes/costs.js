@@ -7,9 +7,15 @@ const {
     deleteCost
 } = require('./conroller/cost.controller');
 
-router.get('/allCosts', getAllCosts);
-router.post('/createNewCost', createNewCost);
-router.patch('/changeCostInfo', changeCostInfo);
-router.delete('/deleteCost', deleteCost);
+router.get('/', getAllCosts);
+router.post('/', createNewCost);
+router.patch('/:id', changeCostInfo);
+router.delete('/:id', deleteCost);
+
+// GET - costs
+// GET - costs/:id
+// POST - costs
+// DELETE - costs/:id
+// PATCH - costs/:id
 
 module.exports = router;

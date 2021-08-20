@@ -3,26 +3,24 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const costsRoutes = require('./routes/costs');
-const Cost = require('./db/index');
+const appConfig = require('./config/appConfig');
+const databaseConfig = require('./config/databaseConfig');
 
-const PORT = process.env.PORT || 3002;
-const password = 'askhabov123';
-const url = `mongodb+srv://deni:${password}@cluster0.ookrc.mongodb.net/myFirstDatabase`
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/', costsRoutes);
+app.use('/costs', costsRoutes);
 
 async function start() {
     try {
-        await mongoose.connect(url, {
+        await mongoose.connect(databaseConfig.MONGO_URL, {
             useNewUrlParser: true,
             useFindAndModify: false,
             useUnifiedTopology: true
         });
 
-        app.listen(PORT, () => {
+        app.listen(appConfig.PORT, () => {
             console.log('Server has been started');
         });
     } catch (error) {
