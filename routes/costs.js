@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const jwtAuth = require('./middleware/jwtMiddleware');
 
 const {
     getAllCosts,
@@ -7,10 +8,10 @@ const {
     deleteCost
 } = require('./conroller/cost.controller');
 
-router.get('/', getAllCosts);
-router.post('/', createNewCost);
-router.patch('/:id', changeCostInfo);
-router.delete('/:id', deleteCost);
+router.get('/', jwtAuth, getAllCosts);
+router.post('/', jwtAuth, createNewCost);
+router.patch('/:id', jwtAuth, changeCostInfo);
+router.delete('/:id', jwtAuth, deleteCost);
 
 // GET - costs
 // GET - costs/:id
